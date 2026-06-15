@@ -1,0 +1,23 @@
+#billboard {
+	margin-top: 35px;
+}
+
+.billboard-img {
+	margin-top: -192px;
+}
+
+ul {
+	list-style: none;
+	list-style-image: none;
+	list-style-position: inside;
+}
+
+.wrapper ul {
+	list-style-image:url(../images/check.png);
+	list-style-position:outside;
+}
+
+.button-main {
+	height:27px;
+	padding:1px 10px 0;
+}

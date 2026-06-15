@@ -15,12 +15,13 @@ return [
     //  Base de données MySQL / MariaDB (IONOS)
     //  L'hôte n'est PAS "localhost" : copiez le nom d'hôte fourni par
     //  IONOS dans votre espace client (ex. db5012345678.hosting-data.io).
+    //  ⚠️ "name" = le NOM DE LA BASE (pas le nom d'utilisateur).
     // ---------------------------------------------------------------
     'db' => [
-        'host'    => 'db517208864.db.1and1.com',     // ex. db1234567890.hosting-data.io
-        'name'    => 'dbo517208864',    // ex. dbs1234567
-        'user'    => 'dbo517208864',    // ex. dbu1234567
-        'pass'    => 'Europachape2026!',
+        'host'    => 'VOTRE_HOTE_IONOS',     // ex. db1234567890.hosting-data.io
+        'name'    => 'VOTRE_NOM_DE_BASE',    // ex. dbs1234567 (le NOM de la base)
+        'user'    => 'VOTRE_UTILISATEUR',    // ex. dbo1234567
+        'pass'    => 'VOTRE_MOT_DE_PASSE',
         'charset' => 'utf8mb4',
     ],
 

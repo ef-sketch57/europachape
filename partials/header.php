@@ -44,7 +44,7 @@ $menu = [
 <header class="site-header">
   <nav class="nav container" aria-label="Navigation principale">
     <a class="brand" href="index.php" aria-label="<?= e($raison) ?> — accueil">
-      <img src="assets/img/logo.jpg" alt="Logo <?= e($raison) ?>">
+      <img src="assets/img/logo-mark.jpg" alt="Logo <?= e($raison) ?>">
       <span class="brand__name"><?= e($raison) ?></span>
     </a>
 

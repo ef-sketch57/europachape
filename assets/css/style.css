@@ -115,9 +115,10 @@ p { color: var(--ink-soft); }
   border-bottom: 1px solid var(--line);
 }
 .nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .7rem 0; }
-.brand { display: flex; align-items: center; gap: .7rem; }
-.brand img { height: 40px; width: auto; }
-.brand__name { font-weight: 800; color: var(--brand-dark); font-size: 1.25rem; letter-spacing: -.01em; }
+.brand { display: inline-flex; align-items: center; gap: .5rem; background: #0b61aa; padding: .3rem .95rem .3rem .35rem; border-radius: 10px; }
+.brand:hover { text-decoration: none; background: #0a5798; }
+.brand img { height: 38px; width: auto; border-radius: 6px; }
+.brand__name { font-weight: 800; color: #fff; font-size: 1.2rem; letter-spacing: .01em; }
 .nav__links { display: flex; align-items: center; gap: .35rem; list-style: none; padding: 0; }
 .nav__links a {
   display: block; padding: .55rem .85rem; border-radius: 8px; color: var(--ink);

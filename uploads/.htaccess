@@ -1,0 +1,7 @@
+# Empêcher l'exécution de tout script dans le dossier des uploads.
+# Seules les images doivent y être servies.
+php_flag engine off
+<FilesMatch "(?i)\.(php|phtml|phar|pl|py|cgi|sh)$">
+    Require all denied
+</FilesMatch>
+Options -Indexes

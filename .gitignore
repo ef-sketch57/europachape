@@ -1,0 +1,10 @@
+# Configuration locale contenant les identifiants (NE JAMAIS versionner)
+includes/config.php
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+*.log
+
+# Images uploadées via l'admin (les exemples de seed sont conservés)
+uploads/photo-*

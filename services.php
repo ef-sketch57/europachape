@@ -31,7 +31,7 @@ require __DIR__ . '/partials/header.php';
          à son excellente conductivité thermique.</p>
     </div>
     <div class="split__media">
-      <img src="assets/img/service-2.jpg" alt="Mise en œuvre d'une chape liquide autonivelante">
+      <img src="assets/img/hero-3.jpg" alt="Chape liquide autonivelante coulée sur plancher chauffant">
     </div>
   </div>
 </section>
@@ -39,7 +39,7 @@ require __DIR__ . '/partials/header.php';
 <section class="section section--tint">
   <div class="container split split--reverse">
     <div class="split__media">
-      <img src="assets/img/service-3.jpg" alt="Réalisation d'une chape traditionnelle">
+      <img src="assets/img/hero-2.jpg" alt="Surface d'une chape traditionnelle au mortier de sable et ciment">
     </div>
     <div class="text-content">
       <span class="eyebrow">Méthode éprouvée</span>
@@ -88,7 +88,7 @@ require __DIR__ . '/partials/header.php';
       </ul>
     </div>
     <div class="split__media">
-      <img src="assets/img/hero-2.jpg" alt="Équipe Europachape sur un chantier">
+      <img src="assets/img/hero-1.jpg" alt="Sol fini réalisé par Europachape">
     </div>
   </div>
 </section>

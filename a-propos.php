@@ -65,7 +65,7 @@ require __DIR__ . '/partials/header.php';
 <section class="section">
   <div class="container split split--reverse">
     <div class="split__media">
-      <img src="assets/img/service-1.jpg" alt="Matériel professionnel d'Europachape">
+      <img src="assets/img/materiel.jpg" alt="Camionnette et machine à chape d'Europachape sur un chantier">
     </div>
     <div class="text-content">
       <span class="eyebrow">Notre matériel</span>

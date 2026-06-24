@@ -10,21 +10,58 @@ $errors = [];
 $sent   = false;
 $old    = ['name' => '', 'email' => '', 'phone' => '', 'subject' => '', 'message' => ''];
 
+/** Détecte les signaux de spam typiques (liens, HTML, cyrillique) dans un texte. */
+function looks_like_spam(string $text): bool
+{
+    // Liens / URL / balises — le spam en contient quasi systématiquement.
+    if (preg_match('~https?://|www\.|</?a\b|\[url|\[/url\]~i', $text)) {
+        return true;
+    }
+    // Présence d'alphabet cyrillique (spam russe récurrent sur ce formulaire).
+    if (preg_match('~\p{Cyrillic}~u', $text)) {
+        return true;
+    }
+    return false;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_check();
 
-    // Anti-spam : champ honeypot invisible (doit rester vide).
-    if (!empty($_POST['website'])) {
-        $sent = true; // on fait croire au robot que c'est envoyé
-    } else {
-        foreach ($old as $k => $_) {
-            $old[$k] = trim((string) ($_POST[$k] ?? ''));
-        }
+    foreach ($old as $k => $_) {
+        $old[$k] = trim((string) ($_POST[$k] ?? ''));
+    }
 
+    // --- Détection silencieuse des bots (on fait croire à un envoi réussi) ---
+    $isBot = false;
+    // 1) Honeypot : champ invisible qui doit rester vide.
+    if (!empty($_POST['website'])) {
+        $isBot = true;
+    }
+    // 2) Piège temporel : formulaire soumis trop vite (< 3 s) = robot.
+    $started = (int) ($_SESSION['form_started'] ?? 0);
+    if ($started > 0 && (time() - $started) < 3) {
+        $isBot = true;
+    }
+    // 3) Contenu : liens, HTML ou cyrillique dans les champs libres.
+    if (looks_like_spam($old['name'] . ' ' . $old['subject'] . ' ' . $old['message'])) {
+        $isBot = true;
+    }
+
+    if ($isBot) {
+        $sent = true; // leurre : aucun mail n'est envoyé
+    } else {
+        // --- Validation classique ---
         if ($old['name'] === '')                    { $errors['name'] = 'Merci d\'indiquer votre nom.'; }
         if ($old['email'] === '')                   { $errors['email'] = 'Merci d\'indiquer votre e-mail.'; }
         elseif (!filter_var($old['email'], FILTER_VALIDATE_EMAIL)) { $errors['email'] = 'Adresse e-mail invalide.'; }
         if (mb_strlen($old['message']) < 15)        { $errors['message'] = 'Votre message doit contenir au moins 15 caractères.'; }
+
+        // --- Question anti-robot (somme simple) ---
+        $expected = $_SESSION['captcha_answer'] ?? null;
+        $given    = (int) ($_POST['captcha'] ?? -1);
+        if ($expected === null || $given !== (int) $expected) {
+            $errors['captcha'] = 'Réponse à la question incorrecte. Merci de réessayer.';
+        }
 
         if (!$errors) {
             global $config;
@@ -55,6 +92,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+// Génère une nouvelle question anti-robot et arme le piège temporel pour le rendu.
+$captchaA = random_int(1, 9);
+$captchaB = random_int(1, 9);
+$_SESSION['captcha_answer'] = $captchaA + $captchaB;
+$_SESSION['form_started']   = time();
 
 $adresse  = company_get('adresse');
 $cp       = company_get('code_postal');
@@ -124,6 +167,12 @@ require __DIR__ . '/partials/header.php';
           <label for="message">Votre message <span class="req">*</span></label>
           <textarea class="textarea" id="message" name="message" required><?= e($old['message']) ?></textarea>
           <?php if (!empty($errors['message'])): ?><small class="alert alert--err"><?= e($errors['message']) ?></small><?php endif; ?>
+        </div>
+
+        <div class="field">
+          <label for="captcha">Question anti-robot : combien font <?= $captchaA ?> + <?= $captchaB ?> ? <span class="req">*</span></label>
+          <input class="input" type="number" id="captcha" name="captcha" inputmode="numeric" required style="max-width:160px">
+          <?php if (!empty($errors['captcha'])): ?><small class="alert alert--err"><?= e($errors['captcha']) ?></small><?php endif; ?>
         </div>
 
         <div><button class="btn btn--primary" type="submit">Envoyer ma demande</button></div>
